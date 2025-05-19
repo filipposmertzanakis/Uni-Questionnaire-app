@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Ολα τα ερωτηματολόγια
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Ολα τα ερωτηματολόγια</h1>
+
+
+
+    <h2>Τα Ερωτηματολόγιά:</h2>
+
+    {% if questionnaires %}
+        <ul>
+        {% for q in questionnaires %}
+            <li>
+                <strong>{{ q.title }}</strong> (Απαντήσεις: {{ q.answer_count }})<br>
+                <a href="{{ url_for('admin.edit_questionnaire', questionnaire_id=q.questionnaire_id) }}">✏️ Επεξεργασία Τιτλου	</a> |
+                <a href="{{ url_for('admin.view_answers', questionnaire_id=q.questionnaire_id) }}">📊 Στατιστικά</a> |
+                <a href={{q.unique_url}}>{{q.unique_url}}</a> 
+                <form action="{{ url_for('admin.delete_questionnaire', questionnaire_id=q.questionnaire_id) }}" method="post"
+                class="no-style-form"
+                style="display:inline;">
+                    <button class="delete-button" type="submit" onclick="return confirm('Σίγουρα θες να διαγράψεις;')">🗑️ Διαγραφή</button>
+                </form> 
+            </li>
+            <br>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Δεν έχεις δημιουργήσει ακόμα ερωτηματολόγια.</p>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

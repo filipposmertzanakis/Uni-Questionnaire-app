@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Στατιστικά για: {{ questionnaire.title }}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Στατιστικά για: {{ questionnaire.title }}</h1>
+
+    <h2>Απαντήσεις:</h2>
+
+    {% if answers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Ερώτηση Αριθμός</th>
+                    <th>Απάντηση</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in answers %}
+                    {% for ans in a.answers %}
+                        <tr>
+                            <td>Ερώτηση {{ ans.question_num }}</td>
+                            <td>{{ ans.content }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Δεν έχουν δοθεί ακόμα απαντήσεις.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('student.dashboard') }}">🔙 Πίσω στο Dashboard</a>
+
+</body>
+</html>
+{% endblock %}

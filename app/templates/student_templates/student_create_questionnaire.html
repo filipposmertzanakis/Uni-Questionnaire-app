@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Δημιουργία Νέου Ερωτηματολογίου
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Δημιουργία Νέου Ερωτηματολογίου</h1>
+
+    <form method="POST">
+        <label>How many questions?</label>
+        <input type="number" name="question_count" min="1" required>
+        <button type="submit">Next</button>
+      </form>
+
+</body>
+</html>
+{% endblock %}

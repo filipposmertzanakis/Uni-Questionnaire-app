@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ questionnaire.title }}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ questionnaire.title }}</h1>
+    <h4>id:{{questionnaire.questionnaire_id}}</h4>
+    
+    <p><strong>Περιγραφή:</strong> {{ questionnaire.description }}</p>
+
+    <form method="post" action="{{ url_for('user.submit_answers', questionnaire_id=questionnaire.questionnaire_id) }}">
+        {% for q in questionnaire.questions %}
+            <div>
+                <label>{{ q.description }}</label><br>
+
+                {% if q.type == "Open Ended" %}
+                    <input type="text" name="q{{ q.question_num }}" required>
+                {% elif q.type == "Numeric" %}
+                    <input type="number" name="q{{ q.question_num }}" required>
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+
+        <button type="submit">Υποβολή Απαντήσεων</button>
+    </form>
+
+</body>
+</html>
+{% endblock %}

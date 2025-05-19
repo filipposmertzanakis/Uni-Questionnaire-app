@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Στατιστικά για: {{ questionnaire.title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Στατιστικά για: {{ questionnaire.title }}</h1>
+
+    <h2>Συνολικές Απαντήσεις:</h2>
+    <p>Σύνολο Απαντήσεων: {{ total_responses }}</p>
+    <p>Απαντήσεις από Φοιτητές: {{ student_responses }}</p>
+    <p>Απαντήσεις από Χρήστες: {{ user_responses }} ({{ user_percentage|round(2) }}%)</p>
+
+    <h2>Απαντήσεις:</h2>
+
+    {% if question_answer_pairs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Ερώτηση Αριθμός</th>
+                    <th>Απάντηση</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                    {% for pair in question_answer_pairs %}
+                        <tr>
+                            <td>{{ pair.question }}</td>
+                            <td>{{ pair.answer }}</td>
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Δεν έχουν δοθεί ακόμα απαντήσεις.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('student.dashboard') }}">🔙 Πίσω στο Dashboard</a>
+{% endblock %}

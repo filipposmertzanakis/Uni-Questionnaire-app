@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Δημιουργία Νέου Ερωτηματολογίου
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <input type="hidden" name="question_count" value="{{ question_count }}">
+  
+    <label>Title:</label>
+    <input type="text" name="title" required>
+  
+    <label>Description:</label>
+    <textarea name="description" required></textarea>
+  
+    {% for i in range(1, question_count + 1) %}
+      <h3>Question {{ i }}</h3>
+      <label>Type:</label>
+      <select name="type_{{ i }}" required>
+        <option value="Open Ended">Open Ended</option>
+        <option value="Numeric">Numeric</option>
+      </select>
+  
+      <label>Description:</label>
+      <input type="text" name="description_{{ i }}" required>
+    {% endfor %}
+  
+    <button type="submit">Create Questionnaire</button>
+  </form>
+  {% endblock %}

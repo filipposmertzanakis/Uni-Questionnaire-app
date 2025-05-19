@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Δημιουργία Νέου Φοιτητή
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Δημιουργία Νέου Φοιτητή</h1>
+
+    <form method="post">
+        <input type="number" name="reg_number" placeholder="Αριθμός Μητρώου" required><br><br>
+        <input type="text" name="username" placeholder="Username" required><br><br>
+        <input type="password" name="password" placeholder="Password" required><br><br>
+        <input type="text" name="name" placeholder="Όνομα" required><br><br>
+        <input type="text" name="surname" placeholder="Επώνυμο" required><br><br>
+        <input type="text" name="department" placeholder="Τμήμα" required><br><br>
+        <button type="submit">Δημιουργία</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('admin.dashboard') }}">🔙 Πίσω στο Dashboard</a>
+
+</body>
+</html>
+{% endblock %}

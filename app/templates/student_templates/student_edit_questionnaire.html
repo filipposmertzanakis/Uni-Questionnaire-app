@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Επεξεργασία Ερωτηματολογίου
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %} 
+    <h1>Επεξεργασία Ερωτηματολογίου</h1>
+
+    <form method="post">
+        <label>Νέος Τίτλος:</label><br>
+        <input type="text" name="title" value="{{ questionnaire.title }}" required><br><br>
+        <button type="submit">Αποθήκευση</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('student.dashboard') }}">🔙 Πίσω στο Dashboard</a>
+</body>
+</html>
+{% endblock %}

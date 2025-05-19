@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=__init__.py
+      - FLASK_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/UniQDB
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
+  mongo-exporter:
+    image: mongo:6.0
+    depends_on:
+      - mongo
+    volumes:
+      - ./data:/data/db
+    entrypoint: |
+      bash -c "
+      echo 'Waiting for MongoDB to start...'
+      sleep 10
+      mongoexport --host mongo --db UniQDB --collection Students --out /data/db/Students.json --jsonArray
+      mongoexport --host mongo --db UniQDB --collection Questionnaires --out /data/db/Questionnaires.json --jsonArray
+      mongoexport --host mongo --db UniQDB --collection answered_questionnaires --out /data/db/answered_questionnaires.json --jsonArray
+      echo 'Exports completed.'
+      "

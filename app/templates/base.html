@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Πληροφοριακό Σύστημα{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <nav>
+        <a href="{{ url_for('index') }}">🏠 Αρχική</a> 
+        <a href="{{ url_for('user.list_questionnaires') }}">📋 Ερωτηματολόγια</a>
+
+        {% if session.get('student_id') %}
+            <a href="{{ url_for('student.dashboard') }}">🎓 Dashboard Φοιτητή</a> |
+            <a href="{{ url_for('student.logout') }}">🚪 Έξοδος</a>
+        {% elif session.get('admin_logged_in') %}
+            <a href="{{ url_for('admin.dashboard') }}">🛡️ Dashboard Διαχειριστή</a> |
+            <a href="{{ url_for('admin.logout') }}">🚪 Έξοδος</a>
+        {% else %}
+            <a href="{{ url_for('student.login') }}">🎓 Είσοδος Φοιτητή</a> |
+            <a href="{{ url_for('admin.login') }}">🛡️ Είσοδος Διαχειριστή</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

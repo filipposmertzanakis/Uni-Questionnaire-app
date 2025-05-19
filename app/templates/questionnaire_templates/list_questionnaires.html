@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Λίστα Ερωτηματολογίων
+{% endblock %}
+
+{% block content %}
+<h1>Λίστα Ερωτηματολογίων</h1>
+
+<!-- Φόρμα Αναζήτησης και Ταξινόμησης -->
+<form method="get" action="{{ url_for('user.search_questionnaires') }}">
+    <input type="text" name="title" placeholder="Αναζήτηση με τίτλο" value="{{ title }}">
+    <input type="text" name="student_name" placeholder="Όνομα Φοιτητή" value="{{ student_name }}">
+    <input type="text" name="department" placeholder="Τμήμα Φοιτητή" value="{{ department }}"><br><br>
+
+    <label>Αριθμός Απαντήσεων Από:</label>
+    <input type="number" name="min_answers" min="0" value="{{ min_answers if min_answers is not none else '' }}">
+    
+    <label>Μέχρι:</label>
+    <input type="number" name="max_answers" min="0" value="{{ max_answers if max_answers is not none else '' }}"><br><br>
+
+    <label>Ταξινόμηση κατά αριθμό απαντήσεων:</label>
+    <select name="sort_order">
+        <option value="">Καμία Ταξινόμηση</option>
+        <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Αύξουσα</option>
+        <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Φθίνουσα</option>
+    </select><br><br>
+
+    <button type="submit">Αναζήτηση / Ταξινόμηση</button>
+</form>
+
+<hr>
+
+<!-- Λίστα Ερωτηματολογίων -->
+{% if questionnaires %}
+    <ul>
+        {% for q in questionnaires %}
+            <li>
+                <a href="{{ url_for('user.view_questionnaire', questionnaire_id=q.questionnaire_id) }}">
+                    {{ q.title }}
+                </a>
+                - Απαντήσεις: {{ q.answer_count }}
+                - Δημιουργός: {{ q.student_name }} ({{ q.department }})<br> 
+                <!-- Προνόμια διαχειριστή -->
+                {% if session['admin_logged_in']  %}
+                    <a href="{{ url_for('admin.edit_questionnaire', questionnaire_id=q.questionnaire_id) }}">✏️ Επεξεργασία Τιτλου	</a> |
+                    <a href="{{ url_for('admin.view_answers', questionnaire_id=q.questionnaire_id) }}">📊 Στατιστικά</a> |
+                    <a href={{q.unique_url}}>{{q.unique_url}}</a> 
+                    <form action="{{ url_for('admin.delete_questionnaire', questionnaire_id=q.questionnaire_id) }}" method="post"
+                    class="no-style-form"
+                    style="display:inline;">
+                        <button class="delete-button" type="submit" onclick="return confirm('Σίγουρα θες να διαγράψεις;')">🗑️ Διαγραφή</button>
+                    </form> 
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Δεν υπάρχουν ερωτηματολόγια.</p>
+{% endif %}
+
+{% endblock %}

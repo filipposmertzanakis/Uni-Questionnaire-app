@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard Διαχειριστή
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <h1>Dashboard Διαχειριστή</h1>
+
+    <a href="{{ url_for('admin.create_student') }}">➕ Δημιουργία Νέου Φοιτητή</a> |
+    <a href="{{ url_for('admin.view_students') }}">👤 Διαχείριση Φοιτητών</a> |
+    <a href="{{ url_for('admin.admin_create_questionnaire') }}">➕ Δημιουργία Νέου Ερωτηματολόγιου</a> |
+    <a href="{{ url_for('admin.logout') }}">🚪 Έξοδος</a>
+
+    <hr>
+
+    <h2>Τα Ερωτηματολόγιά μου:</h2>
+
+    {% if questionnaires %}
+        <ul>
+        {% for q in questionnaires %}
+            <li>
+                <strong>{{ q.title }}</strong> (Απαντήσεις: {{ q.answer_count }})<br>
+                <a href="{{ url_for('admin.edit_questionnaire', questionnaire_id=q.questionnaire_id) }}">✏️ Επεξεργασία Τιτλου	</a> |
+                <a href="{{ url_for('admin.view_answers', questionnaire_id=q.questionnaire_id) }}">📊 Στατιστικά</a> |
+                <a href="http://{{ q.unique_url }}">{{ q.unique_url }}</a>
+                <form action="{{ url_for('admin.delete_questionnaire', questionnaire_id=q.questionnaire_id) }}" method="post"
+                class="no-style-form"
+                style="display:inline;">
+                    <button class="delete-button" type="submit" onclick="return confirm('Σίγουρα θες να διαγράψεις;')">🗑️ Διαγραφή</button>
+                </form> 
+            </li>
+            <br>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Δεν έχεις δημιουργήσει ακόμα ερωτηματολόγια.</p>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

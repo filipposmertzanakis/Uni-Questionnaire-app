@@ -101,7 +101,7 @@
 
 2. **Οδηγίες Εκτέλεσης**:
 ```bash
-git clone https://github.com/username/questionnaire-app
+git clone https://github.com/YpoxreotikiErgasiaJun25_e21104_mertzanakis_Filippos
 cd questionnaire-app
 docker-compose up --build
 ```
@@ -112,6 +112,14 @@ docker-compose up --build
    ```
 
 4. **Η MongoDB αποθηκεύει τα δεδομένα στον φάκελο `./data` του host**.
+
+Μέσα στο docker-compose.yaml υπάρχει το service 'mongo-exporter' το οποίο αποθηκεύει
+σε μορφή json τα collection σε κάθε build.
+π.χ
+
+```
+   mongoexport --host mongo --db UniQDB --collection Students --out /data/db/Students.json --jsonArray
+   ```
 
 ---
 
